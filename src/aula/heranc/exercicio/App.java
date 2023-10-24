@@ -67,12 +67,14 @@ public class App {
 							} else if (escolhaOpcoesSaldo == 2) {
 								String valorSacar = JOptionPane.showInputDialog(null, "Digite o valor do saque",
 										"Saldo - Sacar", JOptionPane.INFORMATION_MESSAGE);
-								if (isNumero(valorSacar)) {
+								if (isNumero(valorSacar) 
+										&& ContaCorrente.getInstanceContaCorrente().exibirSaldo().compareTo(new BigDecimal(valorSacar))>=0 
+										|| ContaCorrente.getInstanceContaCorrente().verChequeEspecial().compareTo(new BigDecimal(valorSacar))>=0) {
 									ContaCorrente.getInstanceContaCorrente().sacar(new BigDecimal(valorSacar));
 									continue;
 								} else {
 									int escolhaOpcaoContemLetra = JOptionPane.showOptionDialog(null,
-											"Valor digitado inválido, tente novamente", "Sacar - Erro",
+											"Valor digitado inválido ou saldo insuficiente. Tente novamente", "Sacar - Erro",
 											JOptionPane.WARNING_MESSAGE, JOptionPane.DEFAULT_OPTION, null,
 											opcaoEscolhas, opcaoEscolhas[0]);
 									if (escolhaOpcaoContemLetra == 0) {
@@ -95,7 +97,7 @@ public class App {
 							String[] opcoesChequeEspecial = { "Saldo Cheque Especial", "Aumentar Saldo Cheque Especial",
 									"Retornar", "Sair" };
 							int escolhaOpcoesChequeEspecial = JOptionPane.showOptionDialog(null,
-									"Utilize o item desejado", "Banco Ital - Conta Correte - Cheque Especial",
+									"Utilize o item desejado", "Conta Correte - Cheque Especial",
 									JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null,
 									opcoesChequeEspecial, opcoesChequeEspecial[0]);
 							int escolhas;
@@ -104,7 +106,7 @@ public class App {
 										"Voce possui um saldo de: R$"
 												+ ContaCorrente.getInstanceContaCorrente().verChequeEspecial()
 												+ " no Cheque Especial",
-										"Banco Ital - Conta Correte - Cheque Especial - Saldo",
+										"Cheque Especial - Saldo",
 										JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null,
 										opcaoEscolhas, opcaoEscolhas[0]);
 								if (escolhas == 0) {
@@ -115,8 +117,8 @@ public class App {
 								}
 							} else if (escolhaOpcoesChequeEspecial == 1) {
 								String escolhaOpcaoSaldoChequeEspecial = JOptionPane.showInputDialog(null,
-										"Digite o valor do Cheque Especial(Um valor precisa ser digitado, mesmo que seja \"0\")",
-										"Banco Ital - Conta Correte - Cheque Especial - Aumentar Saldo",
+										"Digite o valor do Cheque Especial",
+										"Cheque Especial - Aumentar Saldo",
 										JOptionPane.INFORMATION_MESSAGE);
 								if (isNumero(escolhaOpcaoSaldoChequeEspecial)) {
 									ContaCorrente.getInstanceContaCorrente()
@@ -125,7 +127,7 @@ public class App {
 								} else {
 									int escolhaOpcaoContemLetra = JOptionPane.showOptionDialog(null,
 											"Valor digitado inválido, tente novamente",
-											"Banco Ital - Conta Correte - Cheque Especial - Aumentar Saldo - Erro",
+											"Aumentar Saldo - Erro",
 											JOptionPane.WARNING_MESSAGE, JOptionPane.DEFAULT_OPTION, null,
 											opcaoEscolhas, opcaoEscolhas[0]);
 									if (escolhaOpcaoContemLetra == 0) {
@@ -193,12 +195,13 @@ public class App {
 							} else if (escolhaOpcoesSaldo == 2) {
 								String valorSacar = JOptionPane.showInputDialog(null, "Digite o valor do saque",
 										"Saldo - Sacar", JOptionPane.INFORMATION_MESSAGE);
-								if (isNumero(valorSacar)) {
+								if (isNumero(valorSacar) 
+										&& ContaPoupanca.getInstanceContaPoupanca().exibirSaldo().compareTo(new BigDecimal(valorSacar))>=0) {
 									ContaPoupanca.getInstanceContaPoupanca().sacar(new BigDecimal(valorSacar));
 									continue;
 								} else {
 									int escolhaOpcaoContemLetra = JOptionPane.showOptionDialog(null,
-											"Valor digitado inválido, tente novamente", "Sacar - Erro",
+											"Valor digitado inválido ou saldo insuficiente. Tente novamente", "Sacar - Erro",
 											JOptionPane.WARNING_MESSAGE, JOptionPane.DEFAULT_OPTION, null,
 											opcaoEscolhas, opcaoEscolhas[0]);
 									if (escolhaOpcaoContemLetra == 0) {
@@ -237,8 +240,8 @@ public class App {
 						} else if(escolhaOpcaoRendimento==1){
 							 String mesesRendido = JOptionPane.showInputDialog(null, "Digite a quantidade de meses que você quer simular. Saldo atual: " + ContaPoupanca.getInstanceContaPoupanca().exibirSaldo(),
 										"Simular Rendimento - Simular", JOptionPane.QUESTION_MESSAGE);
-							 if (isNumero(mesesRendido)) {
-									int valorMesesRendidos = JOptionPane.showOptionDialog(null,
+							 if (isNumero(mesesRendido) && ContaPoupanca.getInstanceContaPoupanca().exibirSaldo().compareTo(BigDecimal.valueOf(0))>0) { // 0 - 0 = 0
+								 		JOptionPane.showOptionDialog(null,
 											"Valor rendido: " + ContaPoupanca.getInstanceContaPoupanca().calcularRendimento(Integer.valueOf(mesesRendido)), 
 											"Simular", JOptionPane.WARNING_MESSAGE, JOptionPane.DEFAULT_OPTION, null,
 											opcaoEscolhas, opcaoEscolhas[0]);
